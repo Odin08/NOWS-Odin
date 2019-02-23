@@ -4,10 +4,10 @@ import struct
 import os
 
 import sys
-# sys.path.append('X:/gonta/CloudData-2019/Programming/General scripts')
+# sys.path.append('path')
 import M2_module as MM
 
-path = 'X:/gonta/CloudData-2019/first_test_m2/despecl/'
+path = 'path'
 
 lenght = range(0, 190, 20)
 data_arr = []
