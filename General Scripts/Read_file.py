@@ -4,10 +4,10 @@ import struct
 import os
 
 import sys
-# sys.path.append('path')
+#sys.path.append('path')
 import M2_module as MM
 
-path = 'path'
+path = 'X:/gonta/CloudData-2019/first_test_m2/despecl/'
 
 lenght = range(0, 190, 20)
 data_arr = []
@@ -41,15 +41,15 @@ l.sort()
 
 for i in l:
     data = (np.load(path + str(i) + '.npz')['a']).astype(float)
-    print(np.mean([np.mean(data[0:10, :]), np.mean(data[:, 0:10])]))
     bl = np.mean([np.mean(data[0:10, :]), np.mean(data[:, 0:10])])
     #data = data - d
     data = data - bl
-    data[data < 50] = 0
+    bad_zone = np.max([np.max(data[0:10, :]) , np.max(data[:, 0:10])])
+    data[data < bad_zone*1.08] = 0
     #data = MM.Nominal(data, point=40)
 
     A = MM.Field_image(data)
-    data = MM.window(data, A.x0, A.y0)
+    #data = MM.window(data, A.x0, A.y0)
     #plt.imshow(data, cmap='nipy_spectral')
     #plt.show()
     #data_arr.append(data)
