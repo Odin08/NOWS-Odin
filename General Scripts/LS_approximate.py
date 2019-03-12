@@ -44,7 +44,7 @@ def wapp(arr):
     x0, y0 = unravel_index(arr.argmax(), arr.shape)
     I0 = arr.max()
     bl = np.mean(arr[:10, :10])
-    res = least_squares(intensity, [100., I0, x0, y0, bl], args=(arr,))
+    res = least_squares(intensity, [50., I0, x0, y0, bl], args=(arr,))
     return res.x
 
 '''
