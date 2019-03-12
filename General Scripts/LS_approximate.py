@@ -8,10 +8,18 @@ from scipy.optimize import least_squares
 import scipy as sc
 import matplotlib.pyplot as plt
 from numpy import unravel_index
+import time
+import numba
 
 plt.nipy_spectral()
 
 pixel = 5.5e-3
+
+
+def sizeBeam_approxi(arr):
+    mas = wapp(arr)
+    w = mas[0]
+    return np.abs(w*pixel*np.sqrt(2))
 
 def field(w0, I, x0, y0, X, Y):
     X, Y = np.mgrid[0:X, 0:Y]
@@ -31,20 +39,21 @@ def intensity(p, arr):
     l = np.reshape(l, arr.shape[0]*arr.shape[1])
     return l
 
+
 def wapp(arr):
     x0, y0 = unravel_index(arr.argmax(), arr.shape)
     I0 = arr.max()
-    res = least_squares(intensity, [100., I0, x0, y0, 100.], args=(arr,))
+    bl = np.mean(arr[:10, :10])
+    res = least_squares(intensity, [100., I0, x0, y0, bl], args=(arr,))
     return res.x
 
+'''
 E = field(60., 3500., 346., 490., 1024, 1024)
 E = E + 140.
 d = 200*np.random.rand(1024, 1024)
 E = E + d
-masx = wapp(E)
-print(masx)
-print(intensity(masx, E))
-#plt.plot(E.sum(axis=0))
-#plt.plot((field(masx[0], masx[1], masx[2], masx[3], 1024, 1024)+ masx[4]).sum(axis=0))
-plt.imshow(E)
-plt.show()
+
+s = time.time()
+print(sizeBeam_approxi(E))
+print(time.time() - s)
+'''
