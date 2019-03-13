@@ -122,7 +122,7 @@ def w2_theory(p, z):
     return w0*np.sqrt(1. + ((z-z0)*M2*1064e-6/(np.pi*w0**2))**2)
 
 def M2(lenght, w2):
-	res =  least_squares(lambda a,x,y: w2_theory(a,x)-y, [1., 100e-3, 0], args=(lenght, w2))
+	res =  least_squares(lambda a,x,y: w2_theory(a,x)-y, [1., 100e-3, 125], args=(lenght, w2))
 	return res.x
 
 def xy_profile_ave(img):

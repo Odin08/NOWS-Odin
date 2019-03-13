@@ -66,7 +66,7 @@ def main():
     main = MainWindow()
     main.show()
 
-    main.pathBox.setText('X:/gonta/CloudData-2019/first_test_m2/despecl/')
+    main.pathBox.setText('X:/gonta/CloudData-2019/first_test_m2/despecl_grinfilter_new/1')
     main.nameBox.setText('name file')
 
     timer = QtCore.QTimer()
@@ -105,7 +105,7 @@ def main():
 
     global m2_flag, pos, gera, device_id
     m2_flag = False
-    lenght = np.array([0, 20, 40, 50, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 120, 140, 160, 180, 200])
+    lenght = np.array([0, 20, 40, 50, 60, 70, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 160, 180, 200])
     device_id = tl.main()
     #tl.follow_home(device_id)
     tl.test_set_speed(device_id, 1024)
@@ -114,31 +114,33 @@ def main():
 
     def update():
         global image, m2_flag, device_id, numStep, gera
-        if m2_flag == True:
-            image, t_expos = grab_image()
-            position, upos = tl.test_get_position(device_id)
-            position = int(position * 2.56e-3)#round(pos * 2.56e-3, 0)
-            print(position)
 
-            np.savez_compressed(main.pathBox.text() + str(position) + '.npz', a=image)
-            sendCommand(fileHandle, '*CTLSTART')
-            if gera == True:
-                numStep += 1
-                if numStep == len(lenght):
-                    m2_flag = False
-                    numStep -= 1
-                tl.test_move(device_id, tl.pos(lenght[numStep] + 0.01), 0)
-                tl.test_wait_for_stop(device_id, 100)
-                tm.sleep(5)
+        saturation_level = int(str(sendCommand(fileHandle, '*MEAPKSAT'))[2:4])
+        if saturation_level < 90 and saturation_level > 80:
+            if m2_flag == True:
+                image, t_expos = grab_image()
+                position, upos = tl.test_get_position(device_id)
+                position = int(position * 2.56e-3)#round(pos * 2.56e-3, 0)
 
-            else:
-                numStep -= 1
-                if numStep == -1:
-                    m2_flag = False
+                np.savez_compressed(main.pathBox.text() + str(lenght[numStep]) + '.npz', a=image)
+                sendCommand(fileHandle, '*CTLSTART')
+                if gera == True:
                     numStep += 1
-                tl.test_move(device_id, int(tl.pos(lenght[numStep])), 0)
-                tl.test_wait_for_stop(device_id, 100)
-                tm.sleep(5)
+                    if numStep == len(lenght):
+                        m2_flag = False
+                        numStep -= 1
+                    tl.test_move(device_id, tl.pos(lenght[numStep]), 0)
+                    tl.test_wait_for_stop(device_id, 100)
+                    tm.sleep(2)
+
+                else:
+                    numStep -= 1
+                    if numStep == -1:
+                        m2_flag = False
+                        numStep += 1
+                    tl.test_move(device_id, int(tl.pos(lenght[numStep])), 0)
+                    tl.test_wait_for_stop(device_id, 100)
+                    tm.sleep(2)
 
         app.processEvents()
 
