@@ -6,8 +6,13 @@ import matplotlib.pyplot as plt
 import sys
 #sys.path.append('path')
 import M2_module as MM
+<<<<<<< HEAD
 
 path = r"X:\gonta\CloudData-2019\first_test_m2\despecl_grinfilter_new\1"
+=======
+import LS_approximate as ls
+path = 'D:/Laboratory/CloudData-2019/first_test_m2/despecl_grinfilter_new/2/'
+>>>>>>> f2389f2a0fcb2215e35838584a85c361ef4b517d
 
 lenght = range(0, 190, 20)
 data_arr = []
@@ -46,9 +51,14 @@ def load_bmg(file):
     return img
 
 
+<<<<<<< HEAD
 d = load_bmg('X:/gonta/CloudData-2019/first_test_m2/despecl_grinfilter_new/bl-30ms.bmg')
 #d = d[2:, :]
 
+=======
+d = load_bmg(r'D:\Laboratory\CloudData-2019\first_test_m2\despecl_grinfilter_new\bl-100ms.bmg')
+d = d[2:, :]
+>>>>>>> f2389f2a0fcb2215e35838584a85c361ef4b517d
 
 l = []
 for i in os.listdir(path):
@@ -58,6 +68,7 @@ l = np.array(l)
 l.sort()
 k = 0
 for i in l:
+<<<<<<< HEAD
     data = (np.load(path + "/" + str(i) + '.npz')['a']).astype(float)
     #data = data[2:, :]
     data = data - d
@@ -88,6 +99,19 @@ for i in l:
     #a = MM.Field_image(data)
     w.append(masx[0]/2. + masy[0]/2.)
 
+=======
+    data = (np.load(path + str(i) + '.npz')['a']).astype(float)
+    data = data[2:, :]
+    data = data - d
+    data[data < 0] = 0
+
+    #data = MM.window(data, 512, 6)
+    #plt.imshow(data, cmap='nipy_spectral')
+    #plt.show()
+    ww = ls.sizeBeam_approxi(data)
+    print(ww)
+    w.append(ww)
+>>>>>>> f2389f2a0fcb2215e35838584a85c361ef4b517d
 l.astype(float)
 m2 = MM.M2(l, w)
 ll = np.arange(0, 201, 0.1)
@@ -96,21 +120,3 @@ plt.plot(ll, MM.w2_theory(m2, ll))
 plt.grid()
 plt.show()
 print(m2)
-
-'''
-for i in lenght:
-    data = np.load(path + '1/' + str(i) + '.0.npz')['a']
-    data -= data.min()
-    data = data/data.max()
-    plt.subplot(3, 4, j)
-    prof = data.sum(axis=0)
-    prof = prof - prof.min()
-    prof = prof/prof.max()*100
-    plt.plot([0, len(prof) - 1],[13.5, 13.5])
-    plt.plot(prof)
-
-    d.append(data)
-    a = MM.Field_image(data)
-    w.append((a.w('x', 'HW') + a.w('y', 'HW'))/2)
-    j += 1
-'''
