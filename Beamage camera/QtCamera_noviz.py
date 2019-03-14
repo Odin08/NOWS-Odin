@@ -66,7 +66,7 @@ def main():
     main = MainWindow()
     main.show()
 
-    main.pathBox.setText('X:/gonta/CloudData-2019/first_test_m2/despecl_grinfilter_new/1')
+    main.pathBox.setText('X:/gonta/CloudData-2019/first_test_m2/Expanse_space/2/')
     main.nameBox.setText('name file')
 
     timer = QtCore.QTimer()
@@ -122,7 +122,7 @@ def main():
                 position, upos = tl.test_get_position(device_id)
                 position = int(position * 2.56e-3)#round(pos * 2.56e-3, 0)
 
-                np.savez_compressed(main.pathBox.text() + str(lenght[numStep]) + '.npz', a=image)
+                np.savez_compressed(main.pathBox.text() + str(2*lenght[numStep]) + '.npz', a=image)
                 sendCommand(fileHandle, '*CTLSTART')
                 if gera == True:
                     numStep += 1

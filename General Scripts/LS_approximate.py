@@ -5,26 +5,24 @@ from scipy import ndimage
 import numpy as np
 from numpy.fft import rfft, ifft
 from scipy.optimize import least_squares
-<<<<<<< HEAD
+
 from scipy import integrate
 import matplotlib.pyplot as plt
 from numpy import unravel_index
 import numba
 
 
-=======
 import scipy as sc
 import matplotlib.pyplot as plt
 from numpy import unravel_index
 import time
 import numba
 
->>>>>>> f2389f2a0fcb2215e35838584a85c361ef4b517d
+
 plt.nipy_spectral()
 
 pixel = 5.5e-3
 
-<<<<<<< HEAD
 def field(w0, x0, y0, X, Y):
     X, Y = np.mgrid[0:X, 0:Y]
     ro = (X - x0)**2 + (Y - y0)**2
@@ -102,9 +100,6 @@ plt.plot(intensity(masx, np.arange(0, len(Ex))))
 plt.plot(intensity(masy, np.arange(0, len(Ey))))
 plt.show()
 
-
-
-=======
 
 def sizeBeam_approxi(arr):
     mas = wapp(arr)
