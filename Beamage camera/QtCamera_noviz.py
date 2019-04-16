@@ -66,7 +66,7 @@ def main():
     main = MainWindow()
     main.show()
 
-    main.pathBox.setText('X:/gonta/CloudData-2019/first_test_m2/Expanse_space/2/')
+    main.pathBox.setText('X:/gonta/CloudData-2019/first_test_m2/True resalts/pure/')
     main.nameBox.setText('name file')
 
     timer = QtCore.QTimer()
@@ -115,8 +115,9 @@ def main():
     def update():
         global image, m2_flag, device_id, numStep, gera
 
-        saturation_level = int(str(sendCommand(fileHandle, '*MEAPKSAT'))[2:4])
-        if saturation_level < 90 and saturation_level > 80:
+        saturation_level = float(str(sendCommand(fileHandle, '*MEAPKSAT'))[2:5])
+        print(saturation_level)
+        if saturation_level < 90 and saturation_level > 85:
             if m2_flag == True:
                 image, t_expos = grab_image()
                 position, upos = tl.test_get_position(device_id)
