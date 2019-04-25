@@ -8,7 +8,7 @@ import numba
 import time
 #sys.path.append('path')
 import M2_module as MM
-path = r"X:\gonta\CloudData-2019\Student\S1"
+path = r"X:\gonta\CloudData-2019\Student\S1-5m"
 import LS_approximate_v1 as ls
 
 def load_bmg(file):
@@ -40,8 +40,8 @@ for i in l:
     data_arr.append(data)
 
 def arr_w(data_arr):
+    w = []
     for i in data_arr:
-        w = []
         s = time.time()
         ww = ls.sizeBeam_approxi(i)
         print(time.time() - s)
@@ -52,7 +52,7 @@ w = arr_w(data_arr)
 print(len(w), len(l))
 l.astype(float)
 m2 = MM.M2(l, w)
-ll = np.arange(0, 201, 0.1)
+ll = np.arange(0, 401, 0.1)
 plt.plot(l, w, 'o')
 plt.plot(ll, MM.w2_theory(m2, ll))
 plt.grid()

@@ -4,7 +4,8 @@ import numpy as np
 from scipy.optimize import least_squares
 from numpy import unravel_index
 import numba
-
+from numba.extending import overload
+from scipy.optimize import nnls
 pixel = 5.5e-3
 
 
@@ -27,7 +28,7 @@ def intensity(p, arr):
     l = np.reshape(l, arr.shape[0]*arr.shape[1])
     return l
 
-@numba.jit(nopython=True, parallel=True)#("float64[:](float64[:,:,:,:,:], float64[:,:])")
+@numba.jit(nopython=True, parallel=True, fastmath = True, cache=True)#("float64[:](float64[:,:,:,:,:], float64[:,:])")
 def Field(p, arr):
     w = p[0]
     I = p[1]
@@ -40,11 +41,10 @@ def Field(p, arr):
             ar[i][j] = I * np.exp(-2*((i - x0) ** 2 + (j - y0) ** 2) / w ** 2) + delta - arr[i][j]
     return ar.ravel()
 
-
 def wapp(arr):
-    x0, y0 = unravel_index(arr.argmax(), arr.shape)
+    #x0, y0 = unravel_index(arr.argmax(), arr.shape)
     I0 = arr.max()
     bl = np.mean(arr[:10, :10])
-    res = least_squares(Field, [100., I0, x0, y0, bl], args=(arr,))
+    res = nnls(Field, [200., I0, 1024, 1024, bl], args=(arr,))
     return res.x
 
