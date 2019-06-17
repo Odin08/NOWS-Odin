@@ -47,13 +47,12 @@ def wapp(arr):
     res = least_squares(intensity, [50., I0, x0, y0, bl], args=(arr,))
     return res.x
 
-'''
-E = field(60., 3500., 346., 490., 1024, 1024)
+
+E = field(60., 3500., 346., 490., 2048, 2048)
 E = E + 140.
-d = 200*np.random.rand(1024, 1024)
+d = 200*np.random.rand(2048, 2048)
 E = E + d
 
 s = time.time()
 print(sizeBeam_approxi(E))
 print(time.time() - s)
-'''

@@ -6,8 +6,8 @@ import os
 import sys
 #sys.path.append('path')
 import M2_module as MM
-import LS_approximate as ls
-path = 'D:/Laboratory/CloudData-2019/first_test_m2/despecl_grinfilter_new/2/'
+import LS_approx_optimized as ls
+path = 'D:/Laboratory/CloudData-2019/Student/S1/'
 
 lenght = range(0, 190, 20)
 data_arr = []
@@ -30,8 +30,9 @@ def load_bmg(file):
     return img
 
 
-d = load_bmg(r'D:\Laboratory\CloudData-2019\first_test_m2\despecl_grinfilter_new\bl-100ms.bmg')
-d = d[2:, :]
+d = load_bmg('D:/Laboratory/CloudData-2019/Student/bl.bmg')
+dm = np.mean(d)
+d[d == 0] = dm
 
 l = []
 for i in os.listdir(path):
@@ -41,21 +42,22 @@ l.sort()
 
 for i in l:
     data = (np.load(path + str(i) + '.npz')['a']).astype(float)
-    data = data[2:, :]
+    data[data == 0] = dm
     data = data - d
     data[data < 0] = 0
-
+    #plt.imshow(10*np.log10(data))
+    #plt.show()
     #data = MM.window(data, 512, 6)
     #plt.imshow(data, cmap='nipy_spectral')
     #plt.show()
     ww = ls.sizeBeam_approxi(data)
-    print(ww)
-    w.append(ww)
-l.astype(float)
-m2 = MM.M2(l, w)
-ll = np.arange(0, 201, 0.1)
-plt.plot(l, w, 'o')
-plt.plot(ll, MM.w2_theory(m2, ll))
-plt.grid()
-plt.show()
-print(m2)
+    #print(ww)
+    #w.append(ww)
+#l.astype(float)
+#m2 = MM.M2(l, w)
+#ll = np.arange(0, 401, 0.1)
+#plt.plot(l, w, 'o')
+#plt.plot(ll, MM.w2_theory(m2, ll))
+#plt.grid()
+#plt.show()
+#print(m2)
