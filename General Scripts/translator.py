@@ -126,5 +126,5 @@ def end():
     print("Done")
 
 device_id = main()
-test_move(device_id, pos(90), 0)
+test_move(device_id, pos(130), 0)
 test_wait_for_stop(device_id, 100)
