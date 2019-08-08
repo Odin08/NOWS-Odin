@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow
 from MineGUI import Ui_Dialog
 from pyqtgraph.ptime import time
 import time as tm
-import win32file
+
 import datetime
 import struct
 import os
